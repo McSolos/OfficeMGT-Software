@@ -1,0 +1,1 @@
+npm install express mysql2 jsonwebtoken bcrypt dotenv cors

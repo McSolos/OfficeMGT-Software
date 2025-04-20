@@ -1,0 +1,42 @@
+CREATE DATABASE IF NOT EXISTS requisition_db;
+USE requisition_db;
+
+CREATE TABLE users (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role ENUM('user', 'admin', 'superuser') NOT NULL DEFAULT 'user',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+
+INSERT INTO users (username, password, role)
+VALUES ('mcsolos', '$2b$11$NQsTgYeyqzXzKMb5SnXAKuKvGx2ZqI4D62EzO04C1Z8YHrjFvdCKa', 'superuser');
+
+
+CREATE TABLE requisitions (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  engineer_name VARCHAR(255) NOT NULL,
+  site VARCHAR(255) NOT NULL,
+  address TEXT NOT NULL,
+  justification TEXT NOT NULL,
+  provide_on_or_before DATE,
+  created_by INT NOT NULL, -- FK to users table
+  status ENUM('pending', 'approved', 'rejected') DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (created_by) REFERENCES users(id)
+);
+
+-- Requisition
+INSERT INTO requisitions (engineer_name, site, address, justification, provide_on_or_before, created_by)
+VALUES ('John Doe', 'Lekki Phase 1', '22 Unity Close', 'Low stock on site tools', '2025-04-20', 3);
+
+-- Requisition Items (assume requisition ID = 1)
+INSERT INTO requisition_items (requisition_id, item_name, quantity, description)
+VALUES 
+  (1, 'Cable Ties', 100, 'Standard black 6-inch'),
+  (1, 'PVC Conduit', 30, '25mm diameter for external runs');
+
+
+ 
