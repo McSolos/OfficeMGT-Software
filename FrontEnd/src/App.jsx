@@ -12,6 +12,7 @@ import OpenStock from './pages/OpenStock';
 import AdminSummary from './pages/AdminSummary';
 import ManageUsers from './pages/ManageUsers';
 import Help from './pages/Help';
+import MyRequests from './pages/MyRequests';
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
@@ -38,6 +39,7 @@ function App() {
         }
       >
         <Route path="make-request" element={<MakeRequest />} />
+        <Route path="myrequests" element={<MyRequests />} />
         <Route path="request-log" element={<RequestLog />} />
         <Route path="account" element={<Account />} />
         <Route path="requests" element={<Requests />} />

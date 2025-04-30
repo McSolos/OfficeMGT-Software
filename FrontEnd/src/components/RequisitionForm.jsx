@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const RequisitionForm = () => {
-  const {user} = useAuth()
+  const {user} = useAuth();
   const [step, setStep] = useState(1);
   const [form, setForm] = useState({
     engineerName: '',
@@ -37,10 +37,41 @@ const RequisitionForm = () => {
   const nextStep = () => setStep(2);
   const prevStep = () => setStep(1);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', form);
-    // Submit logic goes here
+
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('http://localhost:5000/api/requisitions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(form),
+      });
+
+      if (res.ok) {
+        alert('Requisition submitted successfully!');
+        setForm({
+          engineerName: '',
+          site: '',
+          address: '',
+          justification: '',
+          deadline: '',
+          materials: [
+            { name: '', quantity: '', description: '' }
+          ]
+        });
+        setStep(1);
+      } else {
+        const data = await res.json();
+        alert(data.message || 'Error submitting requisition.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Something went wrong!');
+    }
   };
 
   return (
@@ -55,21 +86,17 @@ const RequisitionForm = () => {
             transition={{ duration: 0.4 }}
           >
             <h2 className="text-xl font-semibold mb-4">Requisition Details</h2>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <input type="text" name="engineerName" placeholder="Engineer Name" value={form.engineerName} onChange={handleChange} className="p-2 border rounded" required />
               <input type="text" name="site" placeholder="Site" value={form.site} onChange={handleChange} className="p-2 border rounded" required />
               <input type="text" name="address" placeholder="Site Address" value={form.address} onChange={handleChange} className="p-2 border rounded" required />
-              <input type="date" name="deadline" placeholder="Provide on or before" value={form.deadline} onChange={handleChange} className="p-2 border rounded" required />
+              <input type="date" name="deadline" value={form.deadline} onChange={handleChange} className="p-2 border rounded" required />
             </div>
-
-            <textarea name="justification" placeholder="Requisition Justification" value={form.justification} onChange={handleChange} className="mt-4 w-full p-2 border rounded h-24" required />
-
+            <textarea name="justification" placeholder="Additional Note" value={form.justification} onChange={handleChange} className="mt-4 w-full p-2 border rounded h-24" required />
             <div className="mt-6 flex justify-end">
               <button type="button" onClick={nextStep} className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
                 Next
               </button>
-              
             </div>
           </motion.div>
         )}

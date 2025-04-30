@@ -28,6 +28,17 @@ CREATE TABLE requisitions (
   FOREIGN KEY (created_by) REFERENCES users(id)
 );
 
+CREATE TABLE requisition_items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  requisition_id INT NOT NULL,
+  item_name VARCHAR(255) NOT NULL,
+  quantity INT NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (requisition_id) REFERENCES requisitions(id) ON DELETE CASCADE
+);
+
+
 -- Requisition
 INSERT INTO requisitions (engineer_name, site, address, justification, provide_on_or_before, created_by)
 VALUES ('John Doe', 'Lekki Phase 1', '22 Unity Close', 'Low stock on site tools', '2025-04-20', 3);

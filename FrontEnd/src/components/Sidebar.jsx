@@ -6,6 +6,7 @@ const Sidebar = ({ user }) => {
   // Full list of links
   const allLinks = [
     { label: 'Make a Request', path: '/dashboard/make-request', roles: ['user', 'admin'] },
+    { label: 'My Requests', path: '/dashboard/myrequests', roles: ['user', 'admin'] },
     { label: 'Request Log', path: '/dashboard/request-log', roles: ['user', 'admin'] },
     { label: 'Account', path: '/dashboard/account', roles: ['user', 'admin', 'superuser'] },
     { label: 'General Requests', path: '/dashboard/requests', roles: ['user', 'admin', 'superuser'] },
@@ -22,7 +23,7 @@ const Sidebar = ({ user }) => {
 
   return (
     <aside className="w-64 bg-white shadow-md flex flex-col h-full">
-      <div className="p-6 text-2xl font-bold border-b border-gray-200">YourCompany</div>
+      <div className="p-6 text-2xl font-bold border-b border-gray-200">Luxsit</div>
       <nav className="flex-1 overflow-y-auto">
         {visibleLinks.map(({ label, path }) => (
           <NavLink
@@ -37,7 +38,7 @@ const Sidebar = ({ user }) => {
         ))}
       </nav>
       <div className="p-4 border-t text-sm text-gray-500">
-        Logged in as <strong>{user?.username}</strong> ({user?.role})
+        Logged in as <strong>{user?.username}</strong> ({user?.role}) 
       </div>
     </aside>
   );

@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
+import Logo from '../../public/Screenshot_20250416-075243_WhatsApp.jpg'
+
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -36,7 +38,9 @@ const Login = () => {
     <div className="min-h-screen flex">
       {/* Left - Logo */}
       <div className="w-1/2 bg-blue-800 text-white flex justify-center items-center text-4xl font-bold">
-        YourCompany Logo
+        Luxsit Integration
+        {/* <img src="/FrontEnd/public/Screenshot_20250416-075243_WhatsApp.jpg" alt="" /> */}
+        {/* <img src={Logo} alt="" /> */}
       </div>
 
       {/* Right - Form */}
